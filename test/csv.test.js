@@ -72,3 +72,16 @@ test('a file over the row cap renders the first rows and says so', () => {
   assert.match(out.html, /Showing the first 5,000 of 5,025 rows/);
   assert.match(out.html, /<caption>5,025 rows, 2 columns, showing the first 5,000<\/caption>/);
 });
+
+test('themeClass names the dark class for dark and nothing otherwise', () => {
+  assert.equal(csv.themeClass('dark'), csv.THEME_DARK_CLASS);
+  assert.equal(csv.themeClass('light'), '');
+  assert.equal(csv.themeClass(undefined), '');
+  assert.equal(csv.themeClass('purple'), '');
+});
+
+test('the stylesheet carries a light default and a dark override under the theme class', () => {
+  assert.match(csv.STYLES, /html,body\{[^}]*background:#ffffff;color:#1f2328/);
+  assert.match(csv.STYLES, /body\.theme-dark\{background:#212121;color:#F0EDE8\}/);
+  assert.match(csv.STYLES, /body\.theme-dark th,body\.theme-dark td\{border-color:#3D3D3D\}/);
+});

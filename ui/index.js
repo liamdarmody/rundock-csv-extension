@@ -3,8 +3,8 @@
 //
 // This is the whole extension. The host inlines this one file into a
 // sandboxed frame (opaque origin, no network, no filesystem), waits for a
-// `ready` message, then posts `init` carrying the opened file's path and
-// text. Everything below either parses that text or draws it; nothing here
+// `ready` message, then posts `init` carrying the opened file's path, its
+// text, and the active theme. Everything below either parses that text or draws it; nothing here
 // reaches outside the frame except through the four messages the host's
 // contract names.
 //
@@ -183,11 +183,20 @@
     return { html: parts.join(''), rows: total, columns: header.length, ragged: ragged, shown: shown };
   }
 
-  // Neutral colours chosen to read on either Rundock theme: the frame has
-  // no way to learn which one is active, so the table sits on its own light
-  // surface with dark text rather than inheriting a background it cannot
-  // see. Inlined from here because the host composes the frame from the
-  // entry alone; there is no stylesheet to load.
+  // Two palettes, one stylesheet. The host names the active theme on init
+  // and the bootstrap sets `theme-dark` on the body for 'dark'; every other
+  // value, and a missing theme, leaves the light palette in force. The dark
+  // values are Rundock's own dark chrome tones (surface #212121, elevated
+  // #272727, border #3D3D3D, text #F0EDE8) so the frame sits level with the
+  // pane around it rather than glowing inside it. Inlined from here because
+  // the host composes the frame from the entry alone; there is no
+  // stylesheet to load.
+  var THEME_DARK_CLASS = 'theme-dark';
+
+  function themeClass(theme) {
+    return theme === 'dark' ? THEME_DARK_CLASS : '';
+  }
+
   var STYLES = [
     'html,body{margin:0;padding:0;background:#ffffff;color:#1f2328;',
     'font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}',
@@ -201,11 +210,20 @@
     'tr.ragged td{background:#fff8e6}',
     '.note{color:#57606a;font-size:12px;margin:8px 0 0}',
     '.error{color:#a40e26;white-space:pre-wrap}',
+    'body.theme-dark{background:#212121;color:#F0EDE8}',
+    'body.theme-dark caption,body.theme-dark .note{color:#9A9590}',
+    'body.theme-dark th,body.theme-dark td{border-color:#3D3D3D}',
+    'body.theme-dark th{background:#272727}',
+    'body.theme-dark tbody tr:nth-child(even) td{background:#1E1E1E}',
+    'body.theme-dark tr.ragged td{background:#332A1A}',
+    'body.theme-dark .error{color:#F0706E}',
   ].join('');
 
   return {
     MAX_ROWS: MAX_ROWS,
     STYLES: STYLES,
+    THEME_DARK_CLASS: THEME_DARK_CLASS,
+    themeClass: themeClass,
     escapeHtml: escapeHtml,
     parseCsv: parseCsv,
     renderTableHtml: renderTableHtml,
@@ -266,6 +284,9 @@
   }
 
   function onInit(data) {
+    // The theme is applied before anything is drawn, so no frame ever
+    // flashes the wrong palette; an absent or unknown theme is the light one.
+    document.body.className = lib.themeClass(data.theme);
     if (typeof data.content !== 'string') {
       // A host that has not yet adopted the init payload: say so rather
       // than draw an empty table that looks like the file's fault.

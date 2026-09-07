@@ -100,3 +100,29 @@ test('only the four contract message types are ever posted', () => {
   const allowed = new Set(['ready', 'resize', 'error', 'open']);
   for (const { message } of posted) assert.ok(allowed.has(message.type), message.type);
 });
+
+test('init with theme dark applies the dark class to the body before drawing', () => {
+  const { document, deliver } = boot();
+  deliver({ type: 'init', path: 'a.csv', content: 'a\n1\n', theme: 'dark' });
+  assert.equal(document.body.className, 'theme-dark');
+  assert.match(document.body.children[0].innerHTML, /<td>1<\/td>/);
+});
+
+test('init with theme light keeps the light palette', () => {
+  const { document, deliver } = boot();
+  deliver({ type: 'init', path: 'a.csv', content: 'a\n1\n', theme: 'light' });
+  assert.equal(document.body.className, '');
+});
+
+test('init without a theme falls back to the light palette', () => {
+  const { document, deliver } = boot();
+  deliver({ type: 'init', path: 'a.csv', content: 'a\n1\n' });
+  assert.equal(document.body.className, '');
+});
+
+test('a later init can switch the theme back to light', () => {
+  const { document, deliver } = boot();
+  deliver({ type: 'init', path: 'a.csv', content: 'a\n1\n', theme: 'dark' });
+  deliver({ type: 'init', path: 'a.csv', content: 'a\n1\n', theme: 'light' });
+  assert.equal(document.body.className, '');
+});

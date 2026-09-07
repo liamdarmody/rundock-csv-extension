@@ -22,11 +22,11 @@ In Rundock, open Settings, then Packages, and paste this link:
 https://github.com/liamdarmody/rundock-csv-extension
 ```
 
-Pin the reference to `v1.0.0`. Rundock reads `rundock.json`, shows you what the package contains before anything is written, and installs the `ui/` directory under its own extensions folder. Rundock does not review packages; read `ui/index.js` before you install it, which is the point of keeping it short.
+Pin the reference to `v1.0.1`. Rundock reads `rundock.json`, shows you what the package contains before anything is written, and installs the `ui/` directory under its own extensions folder. Rundock does not review packages; read `ui/index.js` before you install it, which is the point of keeping it short.
 
 ## What the extension receives, and what it cannot do
 
-The view runs in a sandboxed frame with an opaque origin. After it announces itself as ready, Rundock posts one `init` message carrying the opened file's path and its full text, read-only. That is the whole input.
+The view runs in a sandboxed frame with an opaque origin. After it announces itself as ready, Rundock posts one `init` message carrying the opened file's path, its full text (read-only), and the active theme. That is the whole input.
 
 It cannot:
 
@@ -39,7 +39,7 @@ The messages it posts to Rundock are exactly the ones the host contract names: `
 
 ## Theme
 
-The frame cannot learn which Rundock theme is active, so the table sits on its own light surface (white background, dark text, light grey borders and header) that reads the same under the dark and the light theme. The colors are in the `STYLES` string at the bottom of the library section of `ui/index.js`.
+Rundock names the active theme on `init` (`theme: 'dark'` or `'light'`), and the table follows it. Under the light theme it sits on a white surface with dark text and light grey borders. Under the dark theme it uses Rundock's own dark chrome tones (a `#212121` surface, `#F0EDE8` text, `#3D3D3D` borders, a `#272727` header) so the frame sits level with the pane around it. When the theme is absent or anything other than `dark`, the light palette applies. Both palettes are in the `STYLES` string in `ui/index.js`; the dark one is the set of rules under `body.theme-dark`.
 
 ## Layout
 

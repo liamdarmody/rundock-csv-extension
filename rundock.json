@@ -1,6 +1,6 @@
 {
   "name": "csv-table",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "extension": {
     "entry": "ui/index.js",
     "match": "*.csv"
