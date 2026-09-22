@@ -46,6 +46,8 @@ Rundock names the active theme on `init` (`theme: 'dark'` or `'light'`), and the
 ```
 rundock.json      the manifest: name, version, entry, match
 ui/index.js       the whole extension: parser, renderer, browser bootstrap
+example/          a CSV to open once the extension is installed
+scripts/          the release check below
 test/             node --test, no browser, no dependencies
 ```
 
@@ -56,6 +58,16 @@ test/             node --test, no browser, no dependencies
 ```
 node --test
 ```
+
+## Releasing
+
+The install card shows the version from `rundock.json` beside the tag you pinned, so the two must agree. Bump `version` in `rundock.json` and `package.json` together, then check the tag before creating it:
+
+```
+node scripts/check-version.js v1.0.4
+```
+
+`node scripts/check-version.js --all` checks every tag in the repository. `v1.0.2` is the one known exception: it was published with `rundock.json` still at `1.0.1`, and a published tag is never moved, so `v1.0.3` supersedes it with the same code.
 
 ## License
 
