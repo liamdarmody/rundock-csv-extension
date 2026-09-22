@@ -22,7 +22,7 @@ In Rundock, open Settings, then Packages, and paste this link:
 https://github.com/liamdarmody/rundock-csv-extension
 ```
 
-Pin the reference to `v1.0.1`. Rundock reads `rundock.json`, shows you what the package contains before anything is written, and installs the `ui/` directory under its own extensions folder. Rundock does not review packages; read `ui/index.js` before you install it, which is the point of keeping it short.
+Pin the reference to `v1.0.3`. Rundock reads `rundock.json`, shows you what the package contains before anything is written, and installs the `ui/` directory under its own extensions folder. Rundock does not review packages; read `ui/index.js` before you install it, which is the point of keeping it short.
 
 ## What the extension receives, and what it cannot do
 
