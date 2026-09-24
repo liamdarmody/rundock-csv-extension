@@ -1,5 +1,6 @@
 {
   "name": "csv-table",
+  "displayName": "CSV Viewer",
   "version": "1.0.3",
   "extension": {
     "entry": "ui/index.js",
