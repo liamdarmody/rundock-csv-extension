@@ -1,6 +1,6 @@
 {
   "name": "rundock-csv-extension",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "description": "A read-only CSV table renderer for Rundock.",
   "license": "MIT",
