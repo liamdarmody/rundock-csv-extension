@@ -1,8 +1,8 @@
-# CSV table for Rundock
+# CSV Viewer for Rundock
 
 A read-only renderer for `.csv` files. Open a CSV in Rundock and, instead of raw text, you see a table: the first row as the header, the rest as rows, with a caption stating the row and column count.
 
-This repository is one of the two example packages for Rundock 0.14.0. It is deliberately small so it can be read in one sitting: one manifest, one script, no dependencies, no build step.
+This repository is one of the example packages for [Rundock](https://github.com/liamdarmody/rundock) 0.15.0 or later. It is deliberately small so it can be read in one sitting: one manifest, one script, no dependencies, no build step.
 
 ## What it renders
 
@@ -22,7 +22,7 @@ In Rundock, open Settings, then Packages, and paste this link:
 https://github.com/liamdarmody/rundock-csv-extension
 ```
 
-Pin the reference to `v1.0.3`. Rundock reads `rundock.json`, shows you what the package contains before anything is written, and installs the `ui/` directory under its own extensions folder. Rundock does not review packages; read `ui/index.js` before you install it, which is the point of keeping it short.
+Rundock installs the newest release tag and offers an update when a newer one is tagged. It reads `rundock.json`, shows you what the package contains before anything is written, and installs the `ui/` directory under its own extensions folder. Rundock does not review packages; read `ui/index.js` before you install it, which is the point of keeping it short.
 
 ## What the extension receives, and what it cannot do
 
